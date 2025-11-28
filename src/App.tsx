@@ -19,21 +19,21 @@ export const App: React.FC = () => {
     v => typeof v === 'number',
   ) as number[];
 
-  const currentItems = items.slice(
+  const currentItems: string[] = items.slice(
     (currentPage - 1) * itemsPerPage,
     (currentPage - 1) * itemsPerPage + itemsPerPage,
   );
 
-  const pageFirstItemNumber = items.indexOf(currentItems[0]) + 1;
-  const pageLastItemNumber =
-    items.indexOf(currentItems[currentItems.length - 1]) + 1;
+  const firstItem: number = items.length
+    ? (currentPage - 1) * itemsPerPage + 1
+    : 0;
+  const lastItem: number = Math.min(currentPage * itemsPerPage, items.length);
 
-  function selectItemsPerPage(value: number) {
+  function selectItemsPerPage(value: number): void {
     if (pageSelectValues.includes(value)) {
       setItemsPerPage(value as PerPage);
+      setCurrentPage(1);
     }
-
-    setCurrentPage(1);
   }
 
   return (
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
       <h1>Items with Pagination</h1>
 
       <p className="lead" data-cy="info">
-        {`Page ${currentPage} (items ${pageFirstItemNumber} - ${pageLastItemNumber} of ${items.length})`}
+        {`Page ${currentPage} (items ${firstItem} - ${lastItem} of ${items.length})`}
       </p>
 
       <div className="form-group row">
